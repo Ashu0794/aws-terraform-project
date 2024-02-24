@@ -34,3 +34,15 @@ module "nat_gateway" {
   private_data_subnet_az2_id = module.vpc.private_data_subnet_az2_id
 
 }
+
+# Create security group
+module "security_groups" {
+  source = "../modules/security-group"
+  vpc_id = module.vpc.vpc_id
+
+}  
+
+module "ecs_tasks_execution_role" {
+  source = "../modules/ecs-task-execution-role"
+  project_name = module.vpc.project_name
+}
