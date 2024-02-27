@@ -55,3 +55,71 @@ module "application_load_balancer" {
   public_subnet_az2_id = module.vpc.public_subnet_az2_id
   vpc_id = module.vpc.vpc_id
 }
+
+
+
+
+# resource "aws_instance" "example" {
+#   ami           = "ami-052c9ea013e6e3567"
+#   instance_type = "t2.micro"
+#   subnet_id = module.vpc.public_subnet_az1_id
+#   vpc_security_group_ids = [module.security_groups.alb_security_group_id]
+#   tags = {
+#     Name = "ExampleInstance"
+#   }
+# }
+
+# resource "aws_security_group" "TF_SG" {
+#   name        = "security group using Terraform"
+#   description = "security group using Terraform"
+#   vpc_id      = module.vpc.vpc_id
+
+#   ingress {
+#     description      = "HTTPS"
+#     from_port        = 443
+#     to_port          = 443
+#     protocol         = "tcp"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#     ipv6_cidr_blocks = ["::/0"]
+#   }
+
+#   ingress {
+#     description      = "HTTP"
+#     from_port        = 80
+#     to_port          = 80
+#     protocol         = "tcp"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#     ipv6_cidr_blocks = ["::/0"]
+#   }
+
+#   ingress {
+#     description      = "SSH"
+#     from_port        = 22
+#     to_port          = 22
+#     protocol         = "tcp"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#     ipv6_cidr_blocks = ["::/0"]
+#   }
+
+#   egress {
+#     from_port        = 0
+#     to_port          = 0
+#     protocol         = "-1"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#     ipv6_cidr_blocks = ["::/0"]
+#   }
+
+#   tags = {
+#     Name = "TF_SG"
+#   }
+# }
+
+# EC2 instance in private subnet
+resource "aws_instance" "example" {
+  ami           = "ami-052c9ea013e6e3567"  # Replace with your AMI ID
+  instance_type = "t2.micro"
+  subnet_id     = module.vpc.private_app_subnet_az1_id
+  security_groups = [module.security_groups.alb_security_group_id]
+
+  // Other configuration for your EC2 instance
+}
